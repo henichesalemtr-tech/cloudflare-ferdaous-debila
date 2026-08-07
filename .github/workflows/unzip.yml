@@ -1,0 +1,23 @@
+name: Extract ZIP File
+on: [push]
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Extract Action
+        uses: ihiroky/extract-action@v1
+        with:
+          file_path: './app.zip' # Path to your ZIP file
+          extract_dir: './main' # Target folder
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Automated zip extraction" || exit 0
+          git push
